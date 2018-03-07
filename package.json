@@ -1,15 +1,17 @@
 {
-  "name": "mock",
+  "name": "simple-mock",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a simple restful style mock service project",
+  "author": "fungleo <web@fengcms.com>",
   "main": "mock.js",
   "dependencies": {
     "express": "^4.16.2"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "nodemon": "^1.14.12"
   },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "start": "nodemon mock.js"
+  },
+  "license": "MIT"
 }

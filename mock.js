@@ -68,4 +68,4 @@ app.all('*', (req, res) => {
   // 返回相应数据
   res.json(resultObj[regMethod])
 })
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('Simple mock listening on port 3000!'))
