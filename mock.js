@@ -1,4 +1,4 @@
-// 设定自定义接口前缀
+// Modify your api prefix
 const prefix = '/api/v1/'
 
 const express = require('express')
@@ -7,7 +7,7 @@ const app = express()
 const path = require('path')
 const srcPath = path.resolve(__dirname, './api')
 
-// 读取当前所有接口文件
+// Get all the api files
 function getApis () {
   let apis = []
   let result = fs.readdirSync(srcPath)
@@ -19,53 +19,53 @@ function getApis () {
 const apis = getApis()
 
 app.all('*', (req, res) => {
-  // 处理接口前缀是否正确
+  // Processing error prefix
   if (req.originalUrl.substr(0, prefix.length) !== prefix) {
-    console.log('接口前缀不正确')
-    res.json({"error": "接口前缀不正确"})
+    console.log('error prefix')
+    res.json({"error": "error prefix"})
     return
   }
 
-  // 分析接口参数
+  // Analysis parameters
   let apiStr = req.originalUrl.replace(new RegExp(prefix), '')
   let apiName = apiStr.split('/')[0]
   let apiId = apiStr.split('/')[1]
 
-  // 处理接口不存在的状态
+  // Processing api files undefined
   if (apis.indexOf(apiName) === -1) {
-    console.log('访问接口不存在')
-    res.json({"error": "访问接口不存在"})
+    console.log(apiName + ' is undefined')
+    res.json({"error": apiName + " is undefined"})
     return
   }
 
-  // 引入接口文件
+  // Auto load api file
   let apiJs = require('./api/' + apiName)
 
-  // 处理接口文件内容不完善
+  // Processing api file error
   if (apiId) {
     if (!apiJs.item) {
-      console.log('mock数据不完善，请完善文件')
-      res.json({"error": "mock数据不完善，请完善文件"})
+      console.log('Incomplete api files')
+      res.json({"error": "Incomplete api files"})
       return
     }
   } else {
     if (!apiJs.list) {
-      console.log('mock数据不完善，请完善文件')
-      res.json({"error": "mock数据不完善，请完善文件"})
+      console.log('Incomplete api files')
+      res.json({"error": "Incomplete api files"})
       return
     }
   }
   let resultObj = apiId ? apiJs.item : apiJs.list
 
-  // 处理方法不存在
+  // Processing Method undefined
   let regMethod = req.method.toLowerCase()
   if (!resultObj[regMethod]) {
-    console.log('请求接口不存在该方法')
-    res.json({"error": "请求接口不存在该方法"})
+    console.log('Method undefined')
+    res.json({"error": "Method undefined"})
     return
   }
 
-  // 返回相应数据
+  // Return the correct data
   res.json(resultObj[regMethod])
 })
 app.listen(3000, () => console.log('Simple mock listening on port 3000!'))
