@@ -1,6 +1,7 @@
 // Modify your api prefix
-const prefix = '/api/v1/'
-
+const config = require('./config')
+const prefix = config.prefix
+const port = config.port
 const express = require('express')
 const fs = require('fs')
 const app = express()
@@ -21,7 +22,6 @@ const apis = getApis()
 app.all('*', (req, res) => {
   // Processing error prefix
   if (req.originalUrl.substr(0, prefix.length) !== prefix) {
-    console.log('error prefix')
     res.json({"error": "error prefix"})
     return
   }
@@ -33,7 +33,6 @@ app.all('*', (req, res) => {
 
   // Processing api files undefined
   if (apis.indexOf(apiName) === -1) {
-    console.log(apiName + ' is undefined')
     res.json({"error": apiName + " is undefined"})
     return
   }
@@ -44,13 +43,11 @@ app.all('*', (req, res) => {
   // Processing api file error
   if (apiId) {
     if (!apiJs.item) {
-      console.log('Incomplete api files')
       res.json({"error": "Incomplete api files"})
       return
     }
   } else {
     if (!apiJs.list) {
-      console.log('Incomplete api files')
       res.json({"error": "Incomplete api files"})
       return
     }
@@ -60,7 +57,6 @@ app.all('*', (req, res) => {
   // Processing Method undefined
   let regMethod = req.method.toLowerCase()
   if (!resultObj[regMethod]) {
-    console.log('Method undefined')
     res.json({"error": "Method undefined"})
     return
   }
@@ -68,4 +64,4 @@ app.all('*', (req, res) => {
   // Return the correct data
   res.json(resultObj[regMethod])
 })
-app.listen(3000, () => console.log('Simple mock listening on port 3000!'))
+app.listen(port, () => console.log('Simple mock listening on port ' + port + '!'))

@@ -16,14 +16,15 @@ npm start
 
 ## How to use
 
-### Modify your api prefix
+### Config api prefix or listening port
 
-If you api prefix is `/api/v2`, you can edit the first line of `mock.js`.
+You can edit `config.json` file.
 
-like this:
-
-```js
-const prefix = '/api/v2/'
+```JSON
+{
+  "prefix": "/api/v1/",
+  "port": 3000
+}
 ```
 
 ### Add mock api
