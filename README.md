@@ -159,6 +159,42 @@ Of course, this project also supports the JSON file format. And it's easier to w
 
 For more examples, look directly at the sample file under the `api` folder
 
+## Request sample
+
+```#
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book -X GET
+{"status":0,"data":{"list":[{"id":1,"name":"The three-body problem"},{"id":2,"name":"Interstellar"}]}}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book -X POST
+{"status":0,"msg":"add success"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X GET
+{"status":0,"data":{"id":1,"name":"The three-body problem"}}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X PUT
+{"status":0,"msg":"edit success"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X DELETE
+{"status":0,"msg":"delete success"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X POST
+{"error":"Method undefined"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/bookS -X POST
+{"error":"bookS is undefined"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v2/book -X POST
+{"error":"error prefix"}
+```
+
 ## Copyright and License
 
 Copyright by FungLeo(web@fengcms.com)

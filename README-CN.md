@@ -158,8 +158,43 @@ module.exports = {
   }
 }
 ```
-
 更多的示例，请参看 `api` 文件夹中的文件。
+
+## 接口请求示例
+
+```#
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book -X GET
+{"status":0,"data":{"list":[{"id":1,"name":"The three-body problem"},{"id":2,"name":"Interstellar"}]}}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book -X POST
+{"status":0,"msg":"add success"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X GET
+{"status":0,"data":{"id":1,"name":"The three-body problem"}}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X PUT
+{"status":0,"msg":"edit success"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X DELETE
+{"status":0,"msg":"delete success"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/book/1 -X POST
+{"error":"Method undefined"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v1/bookS -X POST
+{"error":"bookS is undefined"}
+
+fungleo@GoodBoy ~
+$ curl 0.0.0.0:3000/api/v2/book -X POST
+{"error":"error prefix"}
+```
 
 ## Copyright and License
 

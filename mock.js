@@ -1,11 +1,13 @@
-// Modify your api prefix
 const config = require('./config')
-const prefix = config.prefix
-const port = config.port
 const express = require('express')
 const fs = require('fs')
-const app = express()
 const path = require('path')
+
+const prefix = config.prefix
+const port = config.port
+
+const app = express()
+
 const srcPath = path.resolve(__dirname, './api')
 
 // Get all the api files
@@ -55,13 +57,13 @@ app.all('*', (req, res) => {
   let resultObj = apiId ? apiJs.item : apiJs.list
 
   // Processing Method undefined
-  let regMethod = req.method.toLowerCase()
-  if (!resultObj[regMethod]) {
+  let reqMethod = req.method.toLowerCase()
+  if (!resultObj[reqMethod]) {
     res.json({"error": "Method undefined"})
     return
   }
 
   // Return the correct data
-  res.json(resultObj[regMethod])
+  res.json(resultObj[reqMethod])
 })
 app.listen(port, () => console.log('Simple mock listening on port ' + port + '!'))
