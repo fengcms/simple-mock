@@ -1,10 +1,11 @@
+
 [README](https://github.com/fengcms/simple-mock/blob/master/README.md) | [中文说明](https://github.com/fengcms/simple-mock/blob/master/README-CN.md)
 
 # Simple mock server
 
-This is a simple restful style mock service project
+这是一个简单的支持 `restful` 风格的 `mock` 服务项目。
 
-## Installation
+## 安装
 
 ```#
 git clone https://github.com/fengcms/simple-mock
@@ -16,11 +17,11 @@ npm install
 npm start
 ```
 
-## How to use
+## 使用
 
-### Config api prefix or listening port
+### 配置前缀和运行端口
 
-You can edit `config.json` file.
+我们可以通过编辑 `config.json` 文件来进行这两项配置。
 
 ```JSON
 {
@@ -29,13 +30,16 @@ You can edit `config.json` file.
 }
 ```
 
-### Add mock api
+### 添加一个新的接口
 
-If you need a mock api is `book`, You can create a new file under the API folder. The name of the file is `book.js` or `book.json`. and then you can write this file.
+我们只需要在 `api` 文件夹当中添加一个以接口名命名的 `js` 或者 `json` 文件即可。例如，我们现在需要一个 `book` 的接口，就直接添加一个 `book.js` 或者 `book.json` 文件，然后编辑它就可以了。
 
-#### Demo of book.js
+当然，这个文件还是有一定的规范的。
 
-Like this.
+
+#### book.js 的示例
+
+像这样就可以：
 
 ```js
 module.exports = {
@@ -56,7 +60,7 @@ module.exports = {
     },
     post: {
       status: 0,
-      msg: 'add success'
+      msg: '添加成功'
     }
   },
   item: {
@@ -69,23 +73,21 @@ module.exports = {
     },
     put: {
       status: 0,
-      msg: 'edit success'
+      msg: '修改成功'
     },
     delete: {
       status: 0,
-      msg: 'delete success'
+      msg: '删除成功'
     }
   }
 }
 ```
 
-the `list` content is for `/book` api, and the `item` is for `/book/:id` api.
+一般 `restful` 风格的接口，我们会对应两种请求方式，分别是 `/book` 和 `/book/:id`。而上面的例子中， `list` 部分的内容就是给  `/book` 使用的。而 `item` 是给  `/book/:id` 使用的。
 
-You need to support some kind of request method, create an object key value with the lowercase of the name of the method, and then write the mock data in it.
+你需要支持某个请求方法，就以该请求方法的英文小写为键名在对应的区域创建一个对象，而他的值就是你想要返回的数据。
 
-If you need to create some data in a circular way, you can also write a function.
-
-Like this:
+如果你感觉写这些数据比较麻烦，还可以写一个函数来更加方便的创建假数据，像下面的这个例子：
 
 ```js
 function makeList () {
@@ -111,9 +113,9 @@ module.exports = {
 }
 ```
 
-#### Demo of book.json
+#### book.json 的示例
 
-Of course, this project also supports the JSON file format. And it's easier to write, for example, the example above can be written in this way:
+本项目还支持 `json` 文件格式的假数据接口。基本和上面是一样的，不过不支持循环之类的 `js` 写法。就是直接给一个大 `json` 就OK了。
 
 ```JSON
 {
@@ -157,7 +159,7 @@ Of course, this project also supports the JSON file format. And it's easier to w
 }
 ```
 
-For more examples, look directly at the sample file under the `api` folder
+更多的示例，请参看 `api` 文件夹中的文件。
 
 ## Copyright and License
 
