@@ -30,7 +30,7 @@ app.all('*', (req, res) => {
 
   // Analysis parameters
   let apiStr = req.originalUrl.replace(new RegExp(prefix), '')
-  let apiName = apiStr.split('/')[0]
+  let apiName = apiStr.split('/')[0].split('?')[0]
   let apiId = apiStr.split('/')[1]
 
   // Processing api files undefined
