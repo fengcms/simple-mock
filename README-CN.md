@@ -163,7 +163,7 @@ module.exports = {
 
 ## 接口请求示例
 
-```#
+```bash
 fungleo@GoodBoy ~
 $ curl 0.0.0.0:3000/api/v1/book -X GET
 {"status":0,"data":{"list":[{"id":1,"name":"The three-body problem"},{"id":2,"name":"Interstellar"}]}}
