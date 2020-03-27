@@ -2,13 +2,29 @@ const config = require('./config')
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+const clc = require('cli-color')
 
-const prefix = config.prefix
-const port = config.port
+const prefix = config.prefix || '/api/v1/'
+const port = config.port || 3000
+const host = config.host || 'localhost'
 
 const app = express()
 
 const srcPath = path.resolve(__dirname, './api')
+
+function calcApiLink (apis) {
+  const res = []
+  apis.forEach(api => {
+    res.push(`http://${host}:${port}${prefix}${api}`)
+  })
+  return res
+}
+
+function showApisList (apis) {
+  apis.forEach((api, index) => {
+    index < 10 && console.log(clc.cyan(`[apilink] ${api}`))
+  })
+}
 
 // Get all the api files
 function getApis () {
@@ -17,9 +33,20 @@ function getApis () {
   result.forEach(r => {
     apis.push(r.split('.')[0])
   })
+
   return apis
 }
 const apis = getApis()
+const apiLink = calcApiLink(apis)
+
+showApisList (apiLink)
+
+app.get('/', (req, res) => {
+  res.json({
+    host, port, prefix,
+    "apis": apiLink
+  })
+})
 
 app.all('*', (req, res) => {
   // Processing error prefix
@@ -66,4 +93,10 @@ app.all('*', (req, res) => {
   // Return the correct data
   res.json(resultObj[reqMethod])
 })
-app.listen(port, () => console.log('Simple mock listening on port ' + port + '!'))
+app.listen(
+  port,
+  host,
+  () => {
+    console.log(`Simple mock listening on http://${host}:${port}!`)
+  }
+)

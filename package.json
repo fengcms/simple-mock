@@ -5,6 +5,7 @@
   "author": "fungleo <web@fengcms.com>",
   "main": "mock.js",
   "dependencies": {
+    "cli-color": "^2.0.0",
     "express": "^4.16.2"
   },
   "devDependencies": {
