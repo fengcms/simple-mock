@@ -21,12 +21,13 @@ npm start
 
 ### 配置前缀和运行端口
 
-我们可以通过编辑 `config.json` 文件来进行这两项配置。
+我们可以通过编辑 `config.js` 文件来进行这些配置。
 
-```JSON
-{
-  "prefix": "/api/v1/",
-  "port": 3000
+```js
+module.exports = {
+  prefix: '/api/v1/',
+  port: 3000,
+  host: '0.0.0.0'
 }
 ```
 

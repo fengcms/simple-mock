@@ -20,12 +20,13 @@ npm start
 
 ### Config api prefix or listening port
 
-You can edit `config.json` file.
+You can edit `config.js` file.
 
-```JSON
-{
-  "prefix": "/api/v1/",
-  "port": 3000
+```js
+module.exports = {
+  prefix: '/api/v1/',
+  port: 3000,
+  host: '0.0.0.0'
 }
 ```
 
