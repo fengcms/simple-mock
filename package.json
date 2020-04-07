@@ -3,10 +3,25 @@
   "version": "1.0.0",
   "description": "This is a simple restful style mock service project",
   "author": "fungleo <web@fengcms.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fengcms/simple-mock.git"
+  },
+  "keywords": [
+    "vue"
+  ],
+  "bugs": {
+    "url": "https://github.com/fengcms/simple-mock/issues"
+  },
+  "homepage": "https://github.com/fengcms/simple-mock#readme",
   "main": "mock.js",
   "dependencies": {
     "cli-color": "^2.0.0",
-    "express": "^4.16.2"
+    "cookie-parser": "^1.4.5",
+    "express": "^4.16.2",
+    "express-formidable": "^1.2.0",
+    "http-proxy-middleware": "^1.0.3",
+    "multiparty": "^4.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"
