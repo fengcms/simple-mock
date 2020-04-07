@@ -50,7 +50,6 @@ const apiLink = calcApiLink(apis)
 showApisList (apiLink)
 
 const app = express()
-app.use(express.json())
 app.use(cookieParser())
 app.use(formidableMiddleware())
 
@@ -123,6 +122,10 @@ app.all('*', (req, res) => {
   // Return Response Data
   setTimeout(() => {
     const data = resObj[reqMethod]
+    // 因使用 formidableMiddleware 处理 form-data 数据，导致自带中间件无法兼容
+    // 所以在这里将 formidableMiddleware 的 fields 字段 = body 字段
+    // 保持 mock 接口编写文件的书写习惯一致, 毕竟都是习惯 req.body 拿数据的
+    req.body = req.fields
     res.json(utils.toType(data) === 'function' ? data(req, res) : data)
   }, delay)
 })
