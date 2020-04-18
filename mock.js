@@ -83,7 +83,6 @@ app.get('/all-apis', (req, res) => {
     "mockApis": apiLink,
   })
 })
-console.log(proxyApis)
 // mock 接口处理
 app.all('*', (req, res) => {
   // Processing error prefix

@@ -8,7 +8,8 @@
     "url": "git+https://github.com/fengcms/simple-mock.git"
   },
   "keywords": [
-    "mock", "restful"
+    "mock",
+    "restful"
   ],
   "bugs": {
     "url": "https://github.com/fengcms/simple-mock/issues"
