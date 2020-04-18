@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Mock</title>
+  <script src="https://lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
+  <link href="https://lib.baomitu.com/twitter-bootstrap/4.4.1/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1 class="display-4">Simple Mock</h1>
+    <p class="lead">这是一个小巧灵秀的 RESTFul Mock 服务，<a href="https://github.com/fengcms/simple-mock" target="_blank">点击此处查看项目 Github</a>。</p>
+    <h2>Server info</h2>
+    <table class="table">
+      <tbody>
+        <tr>
+          <th width="100">HOST</th>
+          <td class="host"></td>
+        </tr>
+        <tr>
+          <th>PORT</th>
+          <td class="port"></td>
+        </tr>
+        <tr>
+          <th>API prefix</th>
+          <td class="prefix"></td>
+        </tr>
+        <tr>
+          <th>Full prefix</th>
+          <td class="full"></td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Mock API list</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="100" scope="col">#</th>
+          <th scope="col">API</th>
+        </tr>
+      </thead>
+      <tbody class="mock-api-list"></tbody>
+    </table>
+    <h2>Proxy API list</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th width="100" scope="col">#</th>
+          <th scope="col">API</th>
+        </tr>
+      </thead>
+      <tbody class="proxy-api-list"></tbody>
+    </table>
+  </div>
+</body>
+</html>
+<script>
+$(function () {
+  function makeApiListHtml (apisArr) {
+    let html = ''
+    apisArr.forEach((i, k) => {
+      html += `<tr><th scope="row">${k + 1}</th><td><a href="${i}" target="_blank">${i}</a></td></tr>`
+    })
+    return html
+  }
+  const ajax = $.ajax({ url: '/all-apis', async: false })
+  const data = ajax.responseJSON
+  $('.host').text(data.host)
+  $('.port').text(data.port)
+  $('.prefix').text(data.prefix)
+  $('.full').text(location.origin + data.prefix)
+  $('.mock-api-list').html(makeApiListHtml(data.mockApis))
+  $('.proxy-api-list').html(makeApiListHtml(data.proxyApis))
+})
+</script>

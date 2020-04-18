@@ -62,22 +62,28 @@ app.use(formidableMiddleware())
 
 // 默认首页
 app.get('/', (req, res) => {
-  res.json({
-    host, port, prefix,
-    "apis": apiLink
-  })
+  res.sendFile(__dirname + '/pages/home.html')
 })
 
 // 代理接口处理
+const proxyApis = []
 if (proxyConfig.status) {
   const { proxyApiList, proxyOption } = proxyConfig
   proxyApiList.forEach(i => {
     if (!i) return
     const apiName = prefix + i
+    proxyApis.push(`http://${host}:${port}${apiName}`)
     app.use(apiName, createProxyMiddleware(proxyOption))
   })
 }
 
+app.get('/all-apis', (req, res) => {
+  res.json({
+    host, port, prefix, proxyApis,
+    "mockApis": apiLink,
+  })
+})
+console.log(proxyApis)
 // mock 接口处理
 app.all('*', (req, res) => {
   // Processing error prefix
@@ -115,7 +121,7 @@ app.all('*', (req, res) => {
     return
   }
 
-  // check token 
+  // check token
   if (checkToken.status) {
     const { tokenField, tokenPosition, noTokenApiList } = checkToken
     const noTokenApi = noTokenApiList.includes(apiName)
