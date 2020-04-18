@@ -10,7 +10,7 @@ const clc = require('cli-color')
 // 引入配置文件
 const config = require('./config')
 // 引入自定义工具库
-const utils = require('./utils/utils')
+const utils = require('./utils')
 
 let { prefix, port, host, delay, checkToken, proxyConfig } = config
 prefix = prefix || '/api/v1/'
