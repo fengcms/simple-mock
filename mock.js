@@ -19,7 +19,7 @@ const {
   delay = 0,
   checkToken,
   proxyConfig
-} = require('./config')
+} = require('./config') || {}
 
 // 计算 mock 对象中包含哪些请求方法
 function calcApiMethods (item) {
@@ -103,8 +103,8 @@ app.use(formidableMiddleware())
 
 // 代理接口处理
 const proxyApis = []
-if (proxyConfig.status) {
-  const { proxyApiList, proxyOption } = proxyConfig
+if (proxyConfig && proxyConfig.status) {
+  const { proxyApiList = [], proxyOption = {} } = proxyConfig
   proxyApiList.forEach(item => {
     const api = item.api || item
     if (!api) return
@@ -168,8 +168,8 @@ app.all('*', (req, res) => {
   }
 
   // 根据配置校验登录状态
-  if (checkToken.status) {
-    const { tokenField = 'token', tokenPosition = 'headers', noTokenApiList } = checkToken
+  if (checkToken && checkToken.status) {
+    const { tokenField = 'token', tokenPosition = 'headers', noTokenApiList = [] } = checkToken
     const noTokenApi = noTokenApiList.includes(apiName)
     const hasToken = req[tokenPosition][tokenField.toLowerCase()]
     if (!noTokenApi && !hasToken) {
