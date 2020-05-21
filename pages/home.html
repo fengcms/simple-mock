@@ -5,11 +5,13 @@
   <title>Simple Mock</title>
   <script src="https://lib.baomitu.com/jquery/2.2.4/jquery.min.js"></script>
   <link href="https://lib.baomitu.com/twitter-bootstrap/4.4.1/css/bootstrap.css" rel="stylesheet">
+  <script src="https://lib.baomitu.com/clipboard.js/2.0.6/clipboard.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1 class="display-4">Simple Mock Server</h1>
     <p class="lead">这是一个小巧灵秀的 RESTFul Mock 服务，<a href="https://github.com/fengcms/simple-mock" target="_blank">点击此处查看项目 Github</a>。</p>
+    <p>本页面不支持 IE 或 Chrome\Firefox\Safari 等现代浏览器的过老版本，如本页面显示不正常，请尝试更换或升级浏览器！</p>
     <h2>Server info</h2>
     <table class="table">
       <tbody>
@@ -31,11 +33,12 @@
     <table class="table">
       <thead>
         <tr>
-          <th width="120" scope="col">#</th>
-          <th scope="col">API</th>
+          <th width="60" scope="col">#</th>
+          <th width="240" scope="col">API</th>
           <th scope="col">Methods</th>
           <th scope="col">Name</th>
           <th scope="col">Info</th>
+          <th width="140"></th>
         </tr>
       </thead>
       <tbody class="mock-api-list"></tbody>
@@ -44,10 +47,11 @@
     <table class="table">
       <thead>
         <tr>
-          <th width="120" scope="col">#</th>
-          <th scope="col">API</th>
+          <th width="60" scope="col">#</th>
+          <th width="240" scope="col">API</th>
           <th scope="col">Name</th>
           <th scope="col">Info</th>
+          <th width="140"></th>
         </tr>
       </thead>
       <tbody class="proxy-api-list"></tbody>
@@ -65,13 +69,38 @@
 </html>
 <script>
 $(function () {
+  // 请求 Mock 服务基本信息接口
+  const ajax = $.ajax({ url: '/mock-server-info', async: false })
+  const data = ajax.responseJSON
+  const fullPre = location.origin + data.prefix
+
+  // 填充基本信息
+  $('.host').text(data.host)
+  $('.port').text(data.port)
+  $('.prefix').text(data.prefix)
+  $('.full').text(fullPre)
+
+  // 渲染 Mock 和 Proxy 列表信息
+  $('.mock-api-list').html(makeApiListHtml(data.mockApis, true))
+  $('.proxy-api-list').html(makeApiListHtml(data.proxyApis))
+
+  // 按钮点击复制接口名称
+  $('.table').on('click', '.btn', r => {
+    const clipboard = new ClipboardJS('.btn',{ text: () => $(r.target).data().name })
+    clipboard.on('success', e => {
+      e.clearSelection()
+    })
+  })
+
+  // Api 列表数据计算函数
   function makeApiListHtml (apisArr, hasMethods) {
     let html = ''
     apisArr.forEach((i, k) => {
+      const apiName = i.api.replace(new RegExp(fullPre), '')
       html += `
       <tr>
         <th scope="row">${k + 1}</th>
-        <td><a href="${i.api}" target="_blank">${i.api}</a></td>
+        <td><a href="${i.api}" target="_blank">${apiName}</a></td>
         ${
           hasMethods
           ? `<td>${i.methods.join(', ')}</td>`
@@ -79,18 +108,13 @@ $(function () {
         }
         <td>${i.name}</td>
         <td>${i.info}</td>
+        <td>
+          <button type="button" data-name="${apiName}" class="btn btn-primary btn-sm">复制接口名称</button>
+        </td>
       </tr>
       `
     })
     return html
   }
-  const ajax = $.ajax({ url: '/mock-server-info', async: false })
-  const data = ajax.responseJSON
-  $('.host').text(data.host)
-  $('.port').text(data.port)
-  $('.prefix').text(data.prefix)
-  $('.full').text(location.origin + data.prefix)
-  $('.mock-api-list').html(makeApiListHtml(data.mockApis, true))
-  $('.proxy-api-list').html(makeApiListHtml(data.proxyApis))
 })
 </script>
