@@ -12,7 +12,7 @@ module.exports = {
   // 校验 token 设置
   checkToken: {
     // 是否需要校验，如不开启校验，则设置 false
-    status: true,
+    status: false,
     // token 字段名称，根据接口设定约定填写
     tokenField: 'token',
     // 读取 token 的位置

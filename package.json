@@ -1,6 +1,6 @@
 {
   "name": "simple-mock",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "This is a simple restful style mock service project",
   "author": "fungleo <web@fengcms.com>",
   "repository": {
