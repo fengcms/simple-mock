@@ -21,7 +21,8 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.16.2",
     "express-formidable": "^1.2.0",
-    "http-proxy-middleware": "^1.0.3"
+    "http-proxy-middleware": "^1.0.3",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"

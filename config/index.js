@@ -1,5 +1,5 @@
-const noTokenApiList = require('./noTokenApiList')
-const proxyApiList = require('./proxyApiList')
+const noTokenApiList = require('./noTokenApiList') || []
+const proxyApiList = require('./proxyApiList') || []
 module.exports = {
   // 接口前缀
   prefix: '/api/v1/',
@@ -8,11 +8,11 @@ module.exports = {
   // 运行 IP ，若只允许运行在本地，设置为 127.0.0.1 或 localhost
   host: '0.0.0.0',
   // 接口返回延时，单位毫秒 （模拟网络延迟）
-  delay: 500,
+  delay: 100,
   // 校验 token 设置
   checkToken: {
     // 是否需要校验，如不开启校验，则设置 false
-    status: false,
+    status: true,
     // token 字段名称，根据接口设定约定填写
     tokenField: 'token',
     // 读取 token 的位置

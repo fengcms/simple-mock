@@ -33,6 +33,9 @@
         <tr>
           <th width="120" scope="col">#</th>
           <th scope="col">API</th>
+          <th scope="col">Methods</th>
+          <th scope="col">Name</th>
+          <th scope="col">Info</th>
         </tr>
       </thead>
       <tbody class="mock-api-list"></tbody>
@@ -43,6 +46,8 @@
         <tr>
           <th width="120" scope="col">#</th>
           <th scope="col">API</th>
+          <th scope="col">Name</th>
+          <th scope="col">Info</th>
         </tr>
       </thead>
       <tbody class="proxy-api-list"></tbody>
@@ -50,7 +55,7 @@
     <footer class="footer">
       <hr>
       <p>
-        Copyright &copy; FungLeo,
+        Copyright &copy; <a href="http://www.fungleo.com" target="_blank">FungLeo</a>,
         License: MIT,
         <a href="https://github.com/fengcms/simple-mock" target="_blank">GitHub</a>
       </p>
@@ -60,20 +65,32 @@
 </html>
 <script>
 $(function () {
-  function makeApiListHtml (apisArr) {
+  function makeApiListHtml (apisArr, hasMethods) {
     let html = ''
     apisArr.forEach((i, k) => {
-      html += `<tr><th scope="row">${k + 1}</th><td><a href="${i}" target="_blank">${i}</a></td></tr>`
+      html += `
+      <tr>
+        <th scope="row">${k + 1}</th>
+        <td><a href="${i.api}" target="_blank">${i.api}</a></td>
+        ${
+          hasMethods
+          ? `<td>${i.methods.join(', ')}</td>`
+          : ''
+        }
+        <td>${i.name}</td>
+        <td>${i.info}</td>
+      </tr>
+      `
     })
     return html
   }
-  const ajax = $.ajax({ url: '/all-apis', async: false })
+  const ajax = $.ajax({ url: '/mock-server-info', async: false })
   const data = ajax.responseJSON
   $('.host').text(data.host)
   $('.port').text(data.port)
   $('.prefix').text(data.prefix)
   $('.full').text(location.origin + data.prefix)
-  $('.mock-api-list').html(makeApiListHtml(data.mockApis))
+  $('.mock-api-list').html(makeApiListHtml(data.mockApis, true))
   $('.proxy-api-list').html(makeApiListHtml(data.proxyApis))
 })
 </script>
