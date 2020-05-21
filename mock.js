@@ -12,11 +12,7 @@ const config = require('./config')
 // 引入自定义工具库
 const utils = require('./utils')
 
-let { prefix, port, host, delay, checkToken, proxyConfig } = config
-prefix = prefix || '/api/v1/'
-port = port || 3000
-host = host || 'localhost'
-delay = delay || 0
+const { prefix = '/api/v1/', port = 3000, host = 'localhost', delay = 0, checkToken, proxyConfig } = config
 
 function calcApiLink (apis) {
   const res = []

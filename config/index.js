@@ -7,7 +7,7 @@ module.exports = {
   port: 3000,
   // 运行 IP ，若只允许运行在本地，设置为 127.0.0.1 或 localhost
   host: '0.0.0.0',
-  // 接口返回延时，单位毫秒
+  // 接口返回延时，单位毫秒 （模拟网络延迟）
   delay: 500,
   // 校验 token 设置
   checkToken: {
