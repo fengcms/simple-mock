@@ -37,7 +37,11 @@ module.exports = {
       // 真实接口域名以及端口，结尾不要斜杠
       target: 'https://cnodejs.org',
       // 是否需要改变原始主机头为目标URL
-      changeOrigin: true
+      changeOrigin: true,
+      // 接口前缀重定向配置
+      pathRewrite: {
+        // '^/api/v2': '/api/v1'
+      }
     }
   }
 }
