@@ -11,7 +11,7 @@ const makeList = (req, res) => {
   const list = mockPageListData(
     {
       id: '#INDEX#',
-      name: `Boy's Name #INDEX#`
+      name: 'Boy\'s Name #INDEX#'
     },
     page,
     pageSize
@@ -27,7 +27,9 @@ const makeList = (req, res) => {
   })
 }
 module.exports = {
+  name: '男生',
+  info: '普通分页接口的演示文件',
   list: {
-    get: makeList,
+    get: makeList
   }
 }

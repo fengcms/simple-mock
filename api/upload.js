@@ -12,14 +12,13 @@ const imageList = [
   'http://t7.baidu.com/it/u=3204887199,3790688592&fm=79&app=86&f=JPEG',
   'http://t9.baidu.com/it/u=3363001160,1163944807&fm=79&app=86&f=JPEG',
   'http://t9.baidu.com/it/u=583874135,70653437&fm=79&app=86&f=JPEG',
-  'http://t9.baidu.com/it/u=1307125826,3433407105&fm=79&app=86&f=JPEG',
+  'http://t9.baidu.com/it/u=1307125826,3433407105&fm=79&app=86&f=JPEG'
 ]
 
-
 const upload = (req, res) => {
+  // 如果有上传文件
   if (req.files[fileField]) {
-    // 如果有上传文件
-    return data = {
+    return {
       status: 0,
       data: {
         url: imageList[~~(Math.random() * 6)]
@@ -35,8 +34,9 @@ const upload = (req, res) => {
 }
 
 module.exports = {
+  name: '上传文件',
+  info: '这是一个上传文件的演示接口',
   list: {
     post: upload
   }
 }
-

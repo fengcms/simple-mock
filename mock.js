@@ -36,13 +36,17 @@ function calcMockApis (apis) {
     const api = `http://${host}:${port}${prefix}${i}`
     if (list) {
       res.push({
-        api, name, info,
+        api,
+        name,
+        info,
         methods: calcApiMethods(list)
       })
     }
     if (item) {
       res.push({
-        api: `${api}/:id`, name, info,
+        api: `${api}/:id`,
+        name,
+        info,
         methods: calcApiMethods(item)
       })
     }
@@ -66,7 +70,7 @@ function getApis () {
     const breakIndex = fileName.lastIndexOf('.')
     const apiName = fileName.slice(0, breakIndex)
     const fileSuffix = fileName.slice(breakIndex)
-    if (apiName && ['.js', '.json'].includes(fileSuffix)){
+    if (apiName && ['.js', '.json'].includes(fileSuffix)) {
       const temp = require('./api/' + apiName)
       if (temp) apis[apiName] = temp
     }
@@ -75,11 +79,11 @@ function getApis () {
 }
 
 // 给客户端发送数据方法
-function sendData(data, res) {
+function sendData (data, res) {
   if (toType(data) === 'object') {
     res.json(data)
   } else {
-    res.status(500).json({"error": "Internal Server Error"})
+    res.status(500).json({ error: 'Internal Server Error' })
   }
 }
 
@@ -117,7 +121,7 @@ if (proxyConfig.status) {
 
 // 默认首页，在首页可以显示我们所有的 mock 和 proxy 接口信息
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/pages/home.html')
+  res.sendFile(path.resolve(__dirname, './pages/home.html'))
 })
 
 // mock 服务信息接口，用于默认首页展示
@@ -129,7 +133,7 @@ app.get('/mock-server-info', (req, res) => {
 app.all('*', (req, res) => {
   // 处理接口前缀错误
   if (req.originalUrl.substr(0, prefix.length) !== prefix) {
-    res.status(404).json({"error": "api prefix error"})
+    res.status(404).json({ error: 'api prefix error' })
     return
   }
 
@@ -141,14 +145,14 @@ app.all('*', (req, res) => {
   const api = apis[apiName]
 
   if (!api) {
-    res.status(404).json({"error": apiName + " not found"})
+    res.status(404).json({ error: apiName + ' not found' })
     return
   }
 
   // 检查请求的接口对应的 Mock 信息是否存在
   if ((apiId && !api.item) || (!apiId && !api.list)) {
     res.status(404).json({
-      "error": `${apiName}${apiId ? `/:id` : ''} not found, Please check /api/${apiName}.js`
+      error: `${apiName}${apiId ? '/:id' : ''} not found, Please check /api/${apiName}.js`
     })
     return
   }
@@ -159,7 +163,7 @@ app.all('*', (req, res) => {
   // 检查 Mock 数据是否包含对应的请求方法数据
   const reqMethod = req.method.toLowerCase()
   if (!resObj[reqMethod]) {
-    res.status(405).json({"error": "Method Not Allowed"})
+    res.status(405).json({ error: 'Method Not Allowed' })
     return
   }
 
@@ -169,7 +173,7 @@ app.all('*', (req, res) => {
     const noTokenApi = noTokenApiList.includes(apiName)
     const hasToken = req[tokenPosition][tokenField.toLowerCase()]
     if (!noTokenApi && !hasToken) {
-      res.status(401).json({"error": "Unauthorized"})
+      res.status(401).json({ error: 'Unauthorized' })
       return
     }
   }
