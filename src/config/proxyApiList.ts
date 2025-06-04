@@ -14,13 +14,16 @@
     如 不写 method 表示支持所有请求方法
     name 和 info 只是为了便于后续维护存在，在 mock server 服务的首页可以查看你的配置信息
 */
-const proxyApiList = [
+
+import type { ProxyApiItemType } from '@/types/config'
+
+const proxyApiList: (ProxyApiItemType | string)[] = [
   'topics',
   'topic/**',
   {
     api: 'topic_collect/collect',
     name: '收藏主题',
-    info: '在用户登录的状态下，可以通过此接口获取用户的收藏主题'
-  }
+    info: '在用户登录的状态下，可以通过此接口获取用户的收藏主题',
+  },
 ]
-module.exports = proxyApiList
+export default proxyApiList

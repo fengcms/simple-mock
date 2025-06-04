@@ -1,37 +1,31 @@
-// 引用 http 服务依赖
-const express = require('express')
-const cookieParser = require('cookie-parser')
-const formidableMiddleware = require('express-formidable')
-const { createProxyMiddleware } = require('http-proxy-middleware')
-// 引入辅助三方依赖
-const fs = require('fs')
-const path = require('path')
-const clc = require('cli-color')
-const { intersection } = require('lodash')
-// 引入自定义工具库
-const { toType } = require('./utils')
+import * as cookieParser from 'cookie-parser'
+import * as express from 'express'
+import * as formidableMiddleware from 'express-formidable'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+import * as clc from 'cli-color'
+import { intersection } from 'lodash'
+
+import config from '@/config'
+import { toType } from '@/utils'
+import type { ProxyApiItemType } from './types/config'
 
 // 引入配置
-const {
-  prefix = '/api/v1/',
-  port = 3000,
-  host = 'localhost',
-  delay = 0,
-  checkToken,
-  proxyConfig
-} = require('./config') || {}
+const { prefix = '/api/v1/', port = 3000, host = 'localhost', delay = 0, checkToken, proxyConfig } = config
 
 // 计算 mock 对象中包含哪些请求方法
-function calcApiMethods (item) {
-  const itemMethods = Object.keys(item).map(i => i.toUpperCase())
+function calcApiMethods(item) {
+  const itemMethods = Object.keys(item).map((i) => i.toUpperCase())
   const allMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD', 'CONNECT', 'TRACE']
   return intersection(itemMethods, allMethods)
 }
 
 // 计算 mock 接口的详细信息
-function calcMockApis (apis) {
+function calcMockApis(apis) {
   const res = []
-  Object.keys(apis).forEach(i => {
+  Object.keys(apis).forEach((i) => {
     const { name = '-', info = '-', list, item } = apis[i]
     const api = `http://${host}:${port}${prefix}${i}`
     if (list) {
@@ -39,7 +33,7 @@ function calcMockApis (apis) {
         api,
         name,
         info,
-        methods: calcApiMethods(list)
+        methods: calcApiMethods(list),
       })
     }
     if (item) {
@@ -47,7 +41,7 @@ function calcMockApis (apis) {
         api: `${api}/:id`,
         name,
         info,
-        methods: calcApiMethods(item)
+        methods: calcApiMethods(item),
       })
     }
   })
@@ -55,23 +49,23 @@ function calcMockApis (apis) {
 }
 
 // 在控制台显示 5 条 mock Api 链接
-function showApisList (apis) {
+function showApisList(apis) {
   apis.forEach((item, index) => {
     if (index < 5) console.log(clc.cyan(`[apilink] ${item.api}`))
   })
 }
 
 // 自动加载所有的 mock 文件并返回
-function getApis () {
+function getApis() {
   const ApisPath = path.resolve(__dirname, './api')
   const apis = {}
   const files = fs.readdirSync(ApisPath)
-  files.forEach(fileName => {
+  files.forEach((fileName) => {
     const breakIndex = fileName.lastIndexOf('.')
     const apiName = fileName.slice(0, breakIndex)
     const fileSuffix = fileName.slice(breakIndex)
-    if (apiName && ['.js', '.json'].includes(fileSuffix)) {
-      const temp = require('./api/' + apiName)
+    if (apiName && ['.ts', '.js', '.json'].includes(fileSuffix)) {
+      const temp = require(`./api/${apiName}`).default
       if (temp) apis[apiName] = temp
     }
   })
@@ -79,7 +73,7 @@ function getApis () {
 }
 
 // 给客户端发送数据方法
-function sendData (data, res) {
+function sendData(data, res) {
   if (toType(data) === 'object') {
     res.json(data)
   } else {
@@ -103,19 +97,35 @@ app.use(formidableMiddleware())
 
 // 代理接口处理
 const proxyApis = []
-if (proxyConfig && proxyConfig.status) {
+if (proxyConfig?.status) {
   const { proxyApiList = [], proxyOption = {} } = proxyConfig
-  proxyApiList.forEach(item => {
-    const api = item.api || item
-    if (!api) return
-    const { name = '-', info = '-' } = item
-    const fullApi = prefix + api
-    proxyApis.push({
-      api: `http://${host}:${port}${fullApi}`,
-      name,
-      info
-    })
-    app.use(fullApi, createProxyMiddleware(proxyOption))
+  proxyApiList.forEach((item) => {
+    // 使用类型守卫判断 item 的类型
+    const isProxyApiItem = (item: string | ProxyApiItemType): item is ProxyApiItemType =>
+      typeof item === 'object' && 'api' in item
+
+    // 如果是 ProxyApiItemType 类型，直接使用其属性
+    if (isProxyApiItem(item)) {
+      const { api, name = '-', info = '-' } = item
+      if (!api) return
+      const fullApi = prefix + api
+      proxyApis.push({
+        api: `http://${host}:${port}${fullApi}`,
+        name,
+        info,
+      })
+      app.use(fullApi, createProxyMiddleware(proxyOption))
+    } else {
+      // 如果是 string 类型
+      if (!item) return
+      const fullApi = prefix + item
+      proxyApis.push({
+        api: `http://${host}:${port}${fullApi}`,
+        name: '-',
+        info: '-',
+      })
+      app.use(fullApi, createProxyMiddleware(proxyOption))
+    }
   })
 }
 
@@ -145,14 +155,14 @@ app.all('*', (req, res) => {
   const api = apis[apiName]
 
   if (!api) {
-    res.status(404).json({ error: apiName + ' not found' })
+    res.status(404).json({ error: `${apiName} not found` })
     return
   }
 
   // 检查请求的接口对应的 Mock 信息是否存在
   if ((apiId && !api.item) || (!apiId && !api.list)) {
     res.status(404).json({
-      error: `${apiName}${apiId ? '/:id' : ''} not found, Please check /api/${apiName}.js`
+      error: `${apiName}${apiId ? '/:id' : ''} not found, Please check /api/${apiName}.js`,
     })
     return
   }
@@ -168,7 +178,7 @@ app.all('*', (req, res) => {
   }
 
   // 根据配置校验登录状态
-  if (checkToken && checkToken.status) {
+  if (checkToken?.status) {
     const { tokenField = 'token', tokenPosition = 'headers', noTokenApiList = [] } = checkToken
     const noTokenApi = noTokenApiList.includes(apiName)
     const hasToken = req[tokenPosition][tokenField.toLowerCase()]
@@ -194,10 +204,6 @@ app.all('*', (req, res) => {
   }, delay)
 })
 
-app.listen(
-  port,
-  host,
-  () => {
-    console.log(`Simple mock listening on http://${host}:${port}!`)
-  }
-)
+app.listen(port, host, () => {
+  console.log(`Simple mock listening on http://${host}:${port}!`)
+})

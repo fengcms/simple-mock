@@ -1,5 +1,6 @@
 // 模拟分页数据
-const { mockPageListData } = require('../utils')
+import { mockPageListData } from '@/utils'
+
 const makeList = (req, res) => {
   // 从请求中获取 pageSize 和 page 参数，如是 post 请求，则从 req.body 中获取
   let { pageSize, page } = req.query
@@ -11,10 +12,10 @@ const makeList = (req, res) => {
   const list = mockPageListData(
     {
       id: '#INDEX#',
-      name: 'Boy\'s Name #INDEX#'
+      name: "Boy's Name #INDEX#",
     },
     page,
-    pageSize
+    pageSize,
   )
   // 返回 mock 数据
   res.json({
@@ -22,14 +23,14 @@ const makeList = (req, res) => {
     data: {
       list,
       page,
-      count: parseInt(pageSize * 4.5)
-    }
+      count: Number.parseInt(String(pageSize * 4.5)),
+    },
   })
 }
-module.exports = {
+export default {
   name: '男生',
   info: '普通分页接口的演示文件',
   list: {
-    get: makeList
-  }
+    get: makeList,
+  },
 }

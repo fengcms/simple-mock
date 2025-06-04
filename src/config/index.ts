@@ -1,7 +1,7 @@
-const noTokenApiList = require('./noTokenApiList') || []
-const proxyApiList = require('./proxyApiList') || []
+import noTokenApiList from './noTokenApiList'
+import proxyApiList from './proxyApiList'
 
-module.exports = {
+const config = {
   // 接口前缀
   prefix: '/api/v1/',
   // 运行端口
@@ -21,7 +21,7 @@ module.exports = {
     tokenPosition: 'headers',
     // 免校验 token 接口列表，如登录一般是不需要检验的
     // 在 /config/noTokenApiList.js 维护免校验接口名单
-    noTokenApiList
+    noTokenApiList,
   },
   // 真实接口代理设置
   // 用于部分真实接口已开发完成，这部分接口需要真实请求
@@ -42,7 +42,9 @@ module.exports = {
       // 接口前缀重定向配置
       pathRewrite: {
         // '^/api/v2': '/api/v1'
-      }
-    }
-  }
+      },
+    },
+  },
 }
+
+export default config

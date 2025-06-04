@@ -25,12 +25,23 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/cli-color": "^2.0.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/express": "^5.0.2",
+    "@types/express-formidable": "^1.2.3",
+    "@types/lodash": "^4.17.17",
+    "@types/node": "^22.15.29",
     "eslint": "^6.8.0",
     "nodemon": "^2.0.3",
-    "standard": "^14.3.3"
+    "standard": "^14.3.3",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "nodemon mock.js"
+    "start": "nodemon --exec ts-node -r tsconfig-paths/register src/mock.ts"
   },
   "license": "MIT"
 }

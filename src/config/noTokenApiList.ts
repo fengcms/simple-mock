@@ -2,7 +2,7 @@
   免校验 token 接口列表
   一般 login 接口免校验登录
 */
-const noTokenApiList = [
+const noTokenApiList: string[] = [
   'login'
 ]
-module.exports = noTokenApiList
+export default noTokenApiList
