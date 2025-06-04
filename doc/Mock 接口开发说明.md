@@ -3,10 +3,10 @@
 
 ## 简单接口说明
 
-对于我们要 `mock` 的接口，只需要在 `/api` 文件夹中，创建一个与接口名同名的 `js` 文件，然后编写以下的基本结构，然后在对应请求方法里面，放上模拟数据即可。
+对于我们要 `mock` 的接口，只需要在 `/src/api` 文件夹中，创建一个与接口名同名的 `ts` 文件，然后编写以下的基本结构，然后在对应请求方法里面，放上模拟数据即可。
 
 ```js
-module.exports = {
+export default {
   name: '书本',
   info: '这是一个完整的 RESTFul 接口的演示文件',
   // GET POST /book 接口 的 Mock 数据
@@ -27,11 +27,12 @@ module.exports = {
 
 ## 使用函数构建动态数据
 
-如 `/api/boy.js` 这个演示文件里，代码如下：
+如 `/api/boy.ts` 这个演示文件里，代码如下：
 
 ```js
 // 模拟分页数据
-const { mockPageListData } = require('../utils')
+import { mockPageListData } from '@/utils'
+
 const makeList = (req, res) => {
   // 从请求中获取 pageSize 和 page 参数，如是 post 请求，则从 req.body 中获取
   let { pageSize, page } = req.query
@@ -43,10 +44,10 @@ const makeList = (req, res) => {
   const list = mockPageListData(
     {
       id: '#INDEX#',
-      name: 'Boy\'s Name #INDEX#'
+      name: "Boy's Name #INDEX#",
     },
     page,
-    pageSize
+    pageSize,
   )
   // 返回 mock 数据
   res.json({
@@ -54,17 +55,18 @@ const makeList = (req, res) => {
     data: {
       list,
       page,
-      count: parseInt(pageSize * 4.5)
-    }
+      count: Number.parseInt(String(pageSize * 4.5)),
+    },
   })
 }
-module.exports = {
+export default {
   name: '男生',
   info: '普通分页接口的演示文件',
   list: {
-    get: makeList
-  }
+    get: makeList,
+  },
 }
+
 ```
 
 由于项目底层采用了 `express` 框架，因此，在这个函数里面，是可以完整的支持 `express` 的所有功能的。针对常见的分页数据，我写了一个公共方法，简化我们的 `mock` 数据的难度。如果这个公共方法不能满足你的需求，你可以自己参考代码逻辑，去写相应的逻辑。
@@ -73,9 +75,9 @@ module.exports = {
 
 底层使用了 `express-formidable` 中间件，因此在函数中，可以通过 `req.body` 来获取客户端发起的请求的各种参数。同时 `cookie-parser` 中间件，支持对客户端的 `cookie` 进行设置。
 
-具体使用，可以参考 [/api/login.js](https://github.com/fengcms/simple-mock/blob/master/api/login.js) 文件，这里面对获取参数和设置 `cookie` 都有简单的演示。
+具体使用，可以参考 [/api/login.ts](https://github.com/fengcms/simple-mock/blob/master/api/login.ts) 文件，这里面对获取参数和设置 `cookie` 都有简单的演示。
 
-上传文件也是支持的。[/api/upload.js](https://github.com/fengcms/simple-mock/blob/master/api/upload.js) ，文件简单的演示了上传文件接口。
+上传文件也是支持的。[/api/upload.ts](https://github.com/fengcms/simple-mock/blob/master/api/upload.ts) ，文件简单的演示了上传文件接口。
 
 ----
 
