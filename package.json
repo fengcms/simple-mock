@@ -1,16 +1,13 @@
 {
   "name": "simple-mock",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "This is a simple restful style mock service project",
   "author": "fungleo <web@fengcms.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fengcms/simple-mock.git"
   },
-  "keywords": [
-    "mock",
-    "restful"
-  ],
+  "keywords": ["mock", "restful"],
   "bugs": {
     "url": "https://github.com/fengcms/simple-mock/issues"
   },
@@ -32,11 +29,8 @@
     "@types/express-formidable": "^1.2.3",
     "@types/lodash": "^4.17.17",
     "@types/node": "^22.15.29",
-    "eslint": "^6.8.0",
     "nodemon": "^2.0.3",
-    "standard": "^14.3.3",
     "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   },
