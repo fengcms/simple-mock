@@ -10,6 +10,16 @@
 
 -----
 
+光阴荏苒，又 5 年过去了。回顾我五年前开发的这个项目，到今天依然算是可用性非常高的一个项目，真的是非常难得。
+
+但是，五年前，全部都是用的 js 语法编写的这个项目。所以，今天，我特地把它升级到了 ts 语法，并且兼容最新的 node v22 版本。
+
+所以，今天我再发布它的 `3.0.0` 版本。
+
+使用方式和之前的版本几乎没有差别，只是语法更新了，采用了我们前端更熟悉的 `import` 语法。
+
+-----
+
 其实，这是一个很纠结的事情。为什么要造轮子？因为怕麻烦。为什么要把这个项目搞复杂？因为太简单。那么怎么在简单和麻烦之前保持一个平衡，这 TM 是个哲学问题！
 
 这里，我需要说明一下，我认为的**麻烦**，是指额外的学习成本。比如其他功能强大的 `mock` 项目，使用它，就得先学习它的很多规则。可是，`mock` 服务对于我们前端开发人员而言，只是一个过渡工具而已。当后端提供好真实的接口后，这玩意儿就随风而去了。所以，为了满足这么个小小的需求，增加学习成本，我是真的不愿意。
@@ -37,14 +47,14 @@ git clone https://github.com/fengcms/simple-mock
 
 cd simple-mock
 
-npm install
+pnpm install
 
-npm start
+pnpm start
 ```
 
 ## 简单配置
 
-项目的配置文件在 `config/index.js` 文件中，每一个配置我都写了详细的注释。
+项目的配置文件在 `config/index.ts` 文件中，每一个配置我都写了详细的注释。
 
 ![](https://gitee.com/fungleo/my-article-image/raw/master/image/8c/8bc8c38cbbaecded2058bbe87528b2.jpg)
 
@@ -57,7 +67,7 @@ npm start
 所有的 `mock` 接口文件，全部放在 `/api` 目录里面。比如，你有一个叫 `book` 的接口，那么，你就再 `/api` 目录下面新建一个文件叫 `book.js`，然后，录入基本结构如下：
 
 ```js
-module.exports = {
+export default {
   name: '书本',
   info: '这是一个完整的 RESTFul 接口的演示文件',
   // GET POST /book 接口 的 Mock 数据
@@ -74,7 +84,7 @@ module.exports = {
 }
 ```
 
-这是一个完整的 `RESTFul` 模拟接口的基础文件结构。然后，你可以在分别对应的请求方法里面，把你需要的模拟数据复制进去即可。详细的演示代码，可以查看 [/api/book.js](https://github.com/fengcms/simple-mock/blob/master/api/book.js) 文件。
+这是一个完整的 `RESTFul` 模拟接口的基础文件结构。然后，你可以在分别对应的请求方法里面，把你需要的模拟数据复制进去即可。详细的演示代码，可以查看 [/api/book.ts](https://github.com/fengcms/simple-mock/blob/master/api/book.ts) 文件。
 
 如果，你不需要使用某些请求方法，那么可以直接不写就可以了。
 
