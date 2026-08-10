@@ -24,8 +24,8 @@ importers:
         specifier: ^2.0.9
         version: 2.0.9(@types/express@5.0.2)
       lodash:
-        specifier: ^4.17.15
-        version: 4.17.21
+        specifier: ^4.18.1
+        version: 4.18.1
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.9.4
@@ -510,8 +510,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   lru-queue@0.1.0:
     resolution: {integrity: sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==}
@@ -1228,7 +1228,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  lodash@4.17.21: {}
+  lodash@4.18.1: {}
 
   lru-queue@0.1.0:
     dependencies:
